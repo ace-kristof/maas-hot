@@ -19,7 +19,9 @@ pipeline {
     agent {
         label 'kubegit'
     }
-    stage('DT send test start event') {
+
+    stages {
+        stage('DT send test start event') {
           steps {
                container("curl") {
                     script {
@@ -38,7 +40,6 @@ pipeline {
              }
           }
         }
-    stages {
         stage('Run performance test') {
             steps {
                 checkout scm
