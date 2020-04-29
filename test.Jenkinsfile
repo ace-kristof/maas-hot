@@ -7,6 +7,25 @@ pipeline {
     agent {
         label 'kubegit'
     }
+    stage('DT send test start event') {
+          steps {
+               container("curl") {
+                    script {
+                     def status = pushDynatraceInfoEvent (
+                            tagRule : tagMatchRules,
+                           source: "Jmeter",
+                            description: "Performance test for ${env.APP_NAME}",
+                            title: "Jmeter Start",
+                            deploymentVersion: "${env.BUILD}",
+                          customProperties : [
+                              [key: 'VU Count', value: "1"],
+                              [key: 'Loop Count', value: "10"]
+                          ]
+                       )
+                  }
+             }
+          }
+        }
     stages {
         stage('Run performance test') {
             steps {
@@ -33,7 +52,25 @@ pipeline {
                 }
             }
         }
-
+        stage('DT send test stop event') {
+          steps {
+               container("curl") {
+                    script {
+                     def status = pushDynatraceInfoEvent (
+                            tagRule : tagMatchRules,
+                           source: "Jmeter",
+                            description: "Performance test for ${env.APP_NAME}",
+                            title: "Jmeter Start",
+                            deploymentVersion: "${env.BUILD}",
+                          customProperties : [
+                              [key: 'VU Count', value: "1"],
+                              [key: 'Loop Count', value: "10"]
+                          ]
+                       )
+                  }
+             }
+          }
+        }
         stage('Manual approval') {
             // no agent, so executors are not used up when waiting for approvals
             agent none
