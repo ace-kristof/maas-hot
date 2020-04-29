@@ -82,7 +82,7 @@ stage('DT create synthetic monitor') {
                         testName : "simpleproject.staging.${env.APP_NAME}",
                         url : "http://${SERVICE_IP}:${SERVICE_PORT}/api/invoke",
                         method : "GET",
-                        location : "SYNTHETIC_LOCATION-7369600749790685716"
+                        location : "SYNTHETIC_LOCATION-664614D60BB9EA14"
                         )
                     }
                 }
